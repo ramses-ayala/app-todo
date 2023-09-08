@@ -1,25 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
 
-function App() {
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import ProtectedRoute from './utils/ProtectedRoute';
+
+import Home from './components/home/Home';
+import Profile from './components/profile/Profile';
+
+function App(){
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Home />}>
+          <Route index path='home' element={<Home />} />
+        </Route>
+        <Route 
+          path='/profile'
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path='*' element={<p>Page not found :(</p>}/>
+      </Routes>
+    </Router>
   );
 }
 
