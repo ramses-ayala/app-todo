@@ -5,17 +5,26 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import ProtectedRoute from './utils/ProtectedRoute';
 
-import Home from './components/home/Home';
-import Profile from './components/profile/Profile';
+import Dashboard from './pages/dashboard/Dashboard';
+import Profile from './pages/profile/Profile';
+import Login from './pages/login/Login';
 
 function App(){
 
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Home />}>
-          <Route index path='home' element={<Home />} />
-        </Route>
+        <Route
+          path='/'
+          element={<Login />}
+        />
+
+        <Route path='/dashboard' element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }/>
+
         <Route 
           path='/profile'
           element={
