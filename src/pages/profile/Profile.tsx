@@ -1,6 +1,6 @@
 export interface IProfile{}
 
-const Profile: React.FC<IProfile> = (props) => {
+const Profile: React.FC<IProfile> = () => {
     return(
         <h1>Profile component</h1>
     )
