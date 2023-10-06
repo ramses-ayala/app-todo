@@ -1,13 +1,13 @@
-interface generalForm {
-    firstName?: string,
-    lastName?: string,
-    email: string,
-    password: string
-}
+import FormInputs from "../interfaces/FormInputs"; 
 
-const validate = (values: generalForm): Object | any => {
+import { checkErrors } from "./checkErrors";
 
-    let errors = { firstName: '', lastName: '', email: '', password: '' };
+const validate = (values: FormInputs): Object | any => {
+
+    let errors: FormInputs = {
+        email: "",
+        password: ""
+    };
 
     if (!values.firstName) {
         errors.firstName = 'firstName Required !!!'
@@ -49,7 +49,7 @@ const validate = (values: generalForm): Object | any => {
         errors.password = 'Your password must have at least 10 characters, 1 uppercase, 1 lowercase and 1 numeric.';
     }    
 
-    return errors;    
+    return checkErrors(errors);
 
 }
 
