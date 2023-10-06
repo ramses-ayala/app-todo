@@ -21,7 +21,7 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
         let errors = {email: '', password: ''};
 
         if (!values.email) {
-            errors.email = 'email required !!!';
+            errors.email = 'Email required !!!';
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = 'Invalid email address';
         }
@@ -39,11 +39,11 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
         onSubmit: values => {
 
             if (showFormSignUp) {
-                console.log('sending data to sign up');
+                
                 console.log('values for signUp --> ', values);
 
             } else {
-                console.log('sending data to log in');
+                
                 const { email, password } = values;
                 console.log('values for signIn --> ', email, ' , ', password);
             }
