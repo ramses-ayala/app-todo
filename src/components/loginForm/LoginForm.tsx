@@ -5,6 +5,8 @@ import { faLock, faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useFormik } from 'formik';
 
 import { validate } from "../../utils/validateInputs";
+import { checkErrors } from "../../utils/checkErrors";
+import FormInputs from "../../interfaces/FormInputs";
 
 import "./LoginForm.css";
 
@@ -13,39 +15,41 @@ export interface ILoginFormProps { }
 const LoginForm: React.FC<ILoginFormProps> = () => {
 
     const [showFormSignUp, setShowFormSignUp] = useState(false);
-    const [firstName, setFirstName] = useState('');
 
-    //const [errors, setErrors] = useState(showFormSignUp ? {firstName: '', lastName: '', email: '', password: ''} : {email: '', password: ''});
+    const validateFormSignIn = (values: FormInputs) => {
+
+        let errors = {email: '', password: ''};
+
+        if (!values.email) {
+            errors.email = 'Email required !!!';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            errors.email = 'Invalid email address';
+        }
+        
+        if(!values.password){
+            errors.password = 'Password required !!!';
+        }
+
+        return checkErrors(errors);
+    }
 
     const formik = useFormik({
         initialValues: showFormSignUp ? { firstName: '', lastName: '', email: '', password: '' } : { email: '', password: '' },
-        validate,        
+        validate: showFormSignUp ? validate : validateFormSignIn,
         onSubmit: values => {
 
             if (showFormSignUp) {
-                console.log('sending data to sign up');
+                
                 console.log('values for signUp --> ', values);
 
             } else {
-                console.log('sending data to log in');
+                
                 const { email, password } = values;
                 console.log('values for signIn --> ', email, ' , ', password);
             }
             
         },
     });
-
-
-
-    /*  const handleSubmit = (e: MouseEvent<HTMLFormElement>) => {
-         e.preventDefault();
-         
-         if(showFormSignUp){
-             console.log('sending data to sign up');
-         }else{
-             console.log('sending data to log in');
-         }
-     } */
 
     return (
         <>
@@ -74,11 +78,10 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
                                     placeholder="Your First Name"
                                     value={formik.values.firstName}
                                     onChange={formik.handleChange}
-                                    required 
                                 />
                                 
                             </div>
-                            {formik.errors.firstName ? <div className="text-danger">{formik.errors.firstName}</div> : null}
+                            {formik.errors.firstName ? <p className="mb-2 text-danger">{formik.errors.firstName}</p> : null}
 
                             <div className="input-group mb-3 d-flex justify-content-center">
                                 <span className="input-group-text border border-light bg-white">
@@ -93,7 +96,7 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
                                     onChange={formik.handleChange}
                                 />
                             </div>
-                            {formik.errors.lastName ? <div className="text-danger">{formik.errors.lastName}</div> : null}
+                            {formik.errors.lastName ? <p className="mb-2 text-danger">{formik.errors.lastName}</p> : null}
                         </>
                     }
                     <div className="input-group mb-3 d-flex justify-content-center">
@@ -109,7 +112,7 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
                             onChange={formik.handleChange}
                         />
                     </div>
-                    {formik.errors.email ? <div className="text-danger">{formik.errors.email}</div> : null}
+                    {formik.errors.email ? <p className="mb-2 text-danger">{formik.errors.email}</p> : null}
 
                     <div className="input-group mb-3 d-flex justify-content-center">
                         <span className="input-group-text border border-light bg-white">
@@ -124,7 +127,7 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
                             onChange={formik.handleChange}
                         />
                     </div>
-                    {formik.errors.password ? <div className="text-danger">{formik.errors.password}</div> : null}
+                    {formik.errors.password ? <p className="mb-2 text-danger">{formik.errors.password}</p> : null}
 
                     <input type="submit" className="p-2 mb-3 w-50 border border-light" value={showFormSignUp ? "Create an account" : "Log In"} />
 
