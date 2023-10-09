@@ -2,7 +2,7 @@ import FormInputs from "../interfaces/FormInputs";
 
 import { checkErrors } from "./checkErrors";
 
-const validate = (values: FormInputs): Object => {
+const validatorSignUpForm = (values: FormInputs): Object => {
 
     let errors: FormInputs = {
         email: "",
@@ -53,4 +53,4 @@ const validate = (values: FormInputs): Object => {
 
 }
 
-export { validate };
+export { validatorSignUpForm };

@@ -10,7 +10,7 @@ const Login: React.FC<ILoginProps> = () => {
         <>
             <div className="container-xl text-center py-5">
                 <img src={CrownLogo} alt="logo" />
-                <h1>Welcome to <span className='MyTodoApp'>MyTodoApp</span></h1>    
+                <h1>Welcome to <span className='MyTodoApp' style={{color: 'rgb(7, 122, 210)'}}>MyTodoApp</span></h1>    
                 <LoginForm />
             </div>
         </>
