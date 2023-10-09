@@ -1,12 +1,12 @@
 
-import { MouseEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useFormik } from 'formik';
 
-import { validate } from "../../utils/validateInputs";
-import { checkErrors } from "../../utils/checkErrors";
-import FormInputs from "../../interfaces/FormInputs";
+import { validatorSignUpForm } from "../../utils/validatorSignUpForm";
+import { validatorFormSignIn } from "../../utils/validatorSignInForm";
+
 
 import "./LoginForm.css";
 
@@ -16,26 +16,9 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
 
     const [showFormSignUp, setShowFormSignUp] = useState(false);
 
-    const validateFormSignIn = (values: FormInputs) => {
-
-        let errors = {email: '', password: ''};
-
-        if (!values.email) {
-            errors.email = 'Email required !!!';
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            errors.email = 'Invalid email address';
-        }
-        
-        if(!values.password){
-            errors.password = 'Password required !!!';
-        }
-
-        return checkErrors(errors);
-    }
-
     const formik = useFormik({
         initialValues: showFormSignUp ? { firstName: '', lastName: '', email: '', password: '' } : { email: '', password: '' },
-        validate: showFormSignUp ? validate : validateFormSignIn,
+        validate: showFormSignUp ? validatorSignUpForm : validatorFormSignIn,
         onSubmit: values => {
 
             if (showFormSignUp) {
@@ -77,11 +60,12 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
                                     id="firstName"
                                     placeholder="Your First Name"
                                     value={formik.values.firstName}
+                                    onBlur={formik.handleBlur}
                                     onChange={formik.handleChange}
                                 />
                                 
                             </div>
-                            {formik.errors.firstName ? <p className="mb-2 text-danger">{formik.errors.firstName}</p> : null}
+                            {formik.touched.firstName && formik.errors.firstName ? <p className="mb-2 text-danger">{formik.errors.firstName}</p> : null}
 
                             <div className="input-group mb-3 d-flex justify-content-center">
                                 <span className="input-group-text border border-light bg-white">
@@ -93,10 +77,11 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
                                     id="lastName"
                                     placeholder="Your last name"
                                     value={formik.values.lastName}
+                                    onBlur={formik.handleBlur}
                                     onChange={formik.handleChange}
                                 />
                             </div>
-                            {formik.errors.lastName ? <p className="mb-2 text-danger">{formik.errors.lastName}</p> : null}
+                            {formik.touched.lastName && formik.errors.lastName ? <p className="mb-2 text-danger">{formik.errors.lastName}</p> : null}
                         </>
                     }
                     <div className="input-group mb-3 d-flex justify-content-center">
@@ -109,10 +94,11 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
                             id="email"
                             placeholder="Your email"
                             value={formik.values.email}
+                            onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
                         />
                     </div>
-                    {formik.errors.email ? <p className="mb-2 text-danger">{formik.errors.email}</p> : null}
+                    {formik.touched.email && formik.errors.email ? <p className="mb-2 text-danger">{formik.errors.email}</p> : null}
 
                     <div className="input-group mb-3 d-flex justify-content-center">
                         <span className="input-group-text border border-light bg-white">
@@ -124,10 +110,11 @@ const LoginForm: React.FC<ILoginFormProps> = () => {
                             id="password"
                             placeholder="Your password"
                             value={formik.values.password}
+                            onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
                         />
                     </div>
-                    {formik.errors.password ? <p className="mb-2 text-danger">{formik.errors.password}</p> : null}
+                    {formik.touched.password && formik.errors.password ? <p className="mb-2 text-danger">{formik.errors.password}</p> : null}
 
                     <input type="submit" className="p-2 mb-3 w-50 border border-light" value={showFormSignUp ? "Create an account" : "Log In"} />
 
